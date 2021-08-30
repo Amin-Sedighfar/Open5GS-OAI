@@ -44,3 +44,19 @@ The WebUI allows you to interactively edit subscriber data.
  ![image](https://user-images.githubusercontent.com/87240174/131413358-46d15cf1-1302-4082-8344-a621cdcd7a4a.png)
 
  There are some tweaks you will need to make to the config files
+# Setup a 5G Core
+Each VMs are as follows.
+VM # 	SW & Role 	IP address 	OS 	Memory (Min) 	HDD (Min)
+VM1 	Open5GS EPC C-Plane 	192.168.0.111/24 	Ubuntu 20.04 	1GB 	20GB
+VM2 	Open5GS EPC U-Plane1 	192.168.0.112/24 	Ubuntu 20.04 	1GB 	20GB
+VM3 	Open5GS EPC U-Plane2 	192.168.0.113/24 	Ubuntu 20.04 	1GB 	20GB
+VM4 	OpenAirInterface UE / RAN 	192.168.0.120/24 	Ubuntu 18.04 	2GB 	40GB
+OAI UE / RAN cannot be built on Ubuntu 20.04, so build it on Ubuntu 18.04.
+
+Subscriber Information (other information is the same) is as follows.
+UE # 	IMSI 	APN 	OP/OPc
+UE0 	001010000000100 	internet 	OPc
+UE1 	001010000000101 	internet2 	OPc
+UE2 	001010000000102 	internet2 	OPc
+UE3 	001010000000103 	ims 	OPc
+UE4 	001010000000104 	ims 	OPc
