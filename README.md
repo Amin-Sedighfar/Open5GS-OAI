@@ -25,25 +25,18 @@ Ubuntu 20.04
 Ubuntu makes it easy to install Open5GS as shown below,
 
 $ sudo apt update
-
 $ sudo apt install software-properties-common
-
 $ sudo add-apt-repository ppa:open5gs/latest
-
 $ sudo apt update
-
 $ sudo apt install open5gs
 
 # Install the WebUI of Open5GS
 The WebUI allows you to interactively edit subscriber data. 
+
  $ sudo apt update
- 
  $ sudo apt install curl
- 
  $ curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
- 
  $ sudo apt install nodejs
- 
  $ curl -fsSL https://open5gs.org/open5gs/assets/webui/install | sudo -E bash -
  
  
