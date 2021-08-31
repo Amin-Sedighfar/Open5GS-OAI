@@ -64,45 +64,20 @@ UE # 	IMSI 	APN 	OP/OPc
  First, copy .yaml files to have a backup
  then do all of the change like below and check with diff -u command
  Modify /etc/open5gs/mme.yaml to set the S1AP IP address, PLMN ID, and TAC.
- 
+ open5gs/install/etc/open5gs/mme.yaml
  $ diff -u /etc/open5gs/mme.yaml.old /etc/open5gs/mme.yaml
 
+## changes
+mcc: 001 mnc:01 s1ap addr: 192.168.0.111
 
-    open5gs/install/etc/open5gs/mme.yaml
-
---- mme.yaml.orig       2021-02-10 11:41:26.000000000 +0000
-+++ mme.yaml    2021-02-10 12:34:44.000000000 +0000
-@@ -208,19 +208,19 @@
- mme:
-     freeDiameter: /root/open5gs/install/etc/freeDiameter/mme.conf
-     s1ap:
--      - addr: 127.0.0.2
-+      - addr: 192.168.0.111
-     gtpc:
-       - addr: 127.0.0.2
-     gummei: 
-       plmn_id:
--        mcc: 901
--        mnc: 70
-+        mcc: 001
-+        mnc: 01
-       mme_gid: 2
-       mme_code: 1
-     tai:
-       plmn_id:
--        mcc: 901
--        mnc: 70
-+        mcc: 001
-+        mnc: 01
-       tac: 1
-     security:
-         integrity_order : [ EIA2, EIA1, EIA0 ]
-@@ -359,6 +359,7 @@
- #      use_openair: true
- #
- parameter:
-+    use_openair: true
- 
- #
- # max:
-
+open5gs/install/etc/open5gs/sgwc.yaml
+## changes
+gtpc: 
+ pfcp: 
+  addr: 192.168.0.111
+sgwu:
+ pfcp:
+  addr: 192.168.0.112
+  apn: [internet, internet2]
+  addr: 192.168.0.113
+  apn: ims
