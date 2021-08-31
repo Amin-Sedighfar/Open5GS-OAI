@@ -55,8 +55,40 @@ OAI UE / RAN cannot be built on Ubuntu 20.04, so build it on Ubuntu 18.04.
 
 Subscriber Information (other information is the same) is as follows.
 UE # 	IMSI 	APN 	OP/OPc
-UE0 	001010000000100 	internet 	OPc
-UE1 	001010000000101 	internet2 	OPc
-UE2 	001010000000102 	internet2 	OPc
-UE3 	001010000000103 	ims 	OPc
-UE4 	001010000000104 	ims 	OPc
+ UE0 	001010000000100 	internet 	OPc
+ UE1 	001010000000101 	internet2 	OPc
+ UE2 	001010000000102 	internet2 	OPc
+ UE3 	001010000000103 	ims 	OPc
+ UE4 	001010000000104 	ims 	OPc
+ ## Changes in configuration files of Open5GS EPC C-Plane
+ First, copy .yaml files to have a backup
+ then do all of the change like below and check with diff -u command
+ Modify /etc/open5gs/mme.yaml to set the S1AP IP address, PLMN ID, and TAC.
+ 
+ $ diff -u /etc/open5gs/mme.yaml.old /etc/open5gs/mme.yaml
+
+ mme:
+     freeDiameter: /etc/freeDiameter/mme.conf
+     s1ap:
+-      addr: 127.0.0.2
++      addr: 10.10.0.2 # for external eNB - a local address that can be reached by the eNB
+     gtpc:
+       addr: 127.0.0.2
+     gummei:
+       plmn_id:
+-        mcc: 901
+-        mnc: 70
++        mcc: 001 # set your PLMN-MCC
++        mnc: 01  # set your PLMN-MNC
+       mme_gid: 2
+       mme_code: 1
+     tai:
+       plmn_id:
+-        mcc: 901
+-        mnc: 70
+-      tac: 1
++        mcc: 001 # set your PLMN-MCC
++        mnc: 01  # set your PLMN-MNC
++      tac: 2 # should match the TAC used by your eNB
+     security:
+
