@@ -67,28 +67,42 @@ UE # 	IMSI 	APN 	OP/OPc
  
  $ diff -u /etc/open5gs/mme.yaml.old /etc/open5gs/mme.yaml
 
+
+    open5gs/install/etc/open5gs/mme.yaml
+
+--- mme.yaml.orig       2021-02-10 11:41:26.000000000 +0000
++++ mme.yaml    2021-02-10 12:34:44.000000000 +0000
+@@ -208,19 +208,19 @@
  mme:
-     freeDiameter: /etc/freeDiameter/mme.conf
+     freeDiameter: /root/open5gs/install/etc/freeDiameter/mme.conf
      s1ap:
--      addr: 127.0.0.2
-+      addr: 10.10.0.2 # for external eNB - a local address that can be reached by the eNB
+-      - addr: 127.0.0.2
++      - addr: 192.168.0.111
      gtpc:
-       addr: 127.0.0.2
-     gummei:
+       - addr: 127.0.0.2
+     gummei: 
        plmn_id:
 -        mcc: 901
 -        mnc: 70
-+        mcc: 001 # set your PLMN-MCC
-+        mnc: 01  # set your PLMN-MNC
++        mcc: 001
++        mnc: 01
        mme_gid: 2
        mme_code: 1
      tai:
        plmn_id:
 -        mcc: 901
 -        mnc: 70
--      tac: 1
-+        mcc: 001 # set your PLMN-MCC
-+        mnc: 01  # set your PLMN-MNC
-+      tac: 2 # should match the TAC used by your eNB
++        mcc: 001
++        mnc: 01
+       tac: 1
      security:
+         integrity_order : [ EIA2, EIA1, EIA0 ]
+@@ -359,6 +359,7 @@
+ #      use_openair: true
+ #
+ parameter:
++    use_openair: true
+ 
+ #
+ # max:
 
