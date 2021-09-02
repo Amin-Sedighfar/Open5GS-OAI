@@ -24,7 +24,7 @@ The Open5GS 4G/ 5G NSA Core contains the following components:
 Ubuntu 20.04
 Ubuntu makes it easy to install Open5GS as shown below,
 
- $ sudo apt update 
+ $ sudo apt update   
  $ sudo apt install software-properties-common 
  $ sudo add-apt-repository ppa:open5gs/latest 
  $ sudo apt update 
@@ -82,7 +82,7 @@ Connect to http://localhost:3000 and login with admin account.
 
  
  # UE and eNB installation
- $ git clone https://gitlab.eurecom.fr/oai/openairinterface5g/ enb_folder
+$ git clone https://gitlab.eurecom.fr/oai/openairinterface5g/ enb_folder
 $ cd enb_folder
 $ git checkout -f v1.0.0
 $ cd ..
