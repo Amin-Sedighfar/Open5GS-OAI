@@ -115,11 +115,13 @@ $ cd enb_folder
 $ git checkout -f v1.0.0  
 $ cd ..  
 $ cp -Rf enb_folder ue_folder  
-## Changes in configuration files of UE
+## Changes in configuration files of UE & eNB
 
+enb_folder/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf   
 ue_folder/ci-scripts/conf_files/ue.nfapi.conf  
 ue_folder/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf   
-Finally, you can check differences between the original files and uploaded in UE/RAN folders.
+Finally, you can check differences between the original files and uploaded in UERAN1 folders.  
+Note: UERAN2 file are the same with UERAN1, it is for the case that you want to have more than one eNB and more UEs
 
 ## Changes in configuration files of RAN
 
