@@ -45,7 +45,7 @@ The WebUI allows you to interactively edit subscriber data.
 
  There are some tweaks you will need to make to the config files
 # Setup a 5G Core
-Each VMs are as follows.
+Each VMs are as follows.  
  VM # 	SW & Role 	IP address 	OS 	Memory (Min) 	HDD (Min)  
  VM1 	Open5GS EPC C-Plane 	192.168.0.111/24 	Ubuntu 20.04 	1GB 	20GB  
  VM2 	Open5GS EPC U-Plane1 	192.168.0.112/24 	Ubuntu 20.04 	1GB 	20GB  
@@ -62,16 +62,18 @@ Subscriber Information (other information is the same) is as follows.
   UE4 	001010000000104 	ims 	OPc  
  ## Changes in configuration files of Open5GS EPC C-Plane
  First, copy .yaml files to have a backup  
- then do all of the change like below and check with diff -u command
- Modify /etc/open5gs/mme.yaml to set the S1AP IP address, PLMN ID, and TAC.
+ then do all of the change like below and check with diff -u command  
+ Modify /etc/open5gs/mme.yaml to set the S1AP IP address, PLMN ID, and TAC.  
  open5gs/install/etc/open5gs/mme.yaml  
  open5gs/install/etc/open5gs/sgwc.yaml  
  open5gs/install/etc/open5gs/smf.yaml  
  Then you can check the modifications with the below command:  
- $ diff -u /etc/open5gs/mme.yaml.old /etc/open5gs/mme.yaml  
+ $ diff -u /etc/open5gs/mme.yaml.old /etc/open5gs/mme.yaml   
+ You can check differences between the original files and uploaded in Core folder.
  ## Changes in configuration files of Open5GS EPC U-Plane1 & 2  
  open5gs/install/etc/open5gs/sgwu.yaml  
- open5gs/install/etc/open5gs/upf.yaml  
+ open5gs/install/etc/open5gs/upf.yaml   
+ You can check differences between the original files and uploaded in U-plane1&2 folders.
  
  # Register Subscriber Information
 
@@ -80,8 +82,31 @@ Connect to http://localhost:3000 and login with admin account.
     Username : admin
     Password : 1423
 
- 
- # UE and eNB installation
+ # Network settings of Open5GS EPC and OAI UE / RAN
+ ### Network settings of Open5GS EPC U-Plane1
+
+First, uncomment the next line in the /etc/sysctl.conf file and reflect it in the OS.  
+net.ipv4.ip_forward=1  
+Next, configure the TUNnel interface and NAPT.  
+ip tuntap add name ogstun mode tun  
+ip addr add 10.45.0.1/16 dev ogstun  
+ip link set ogstun up  
+iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE  
+ip tuntap add name ogstun2 mode tun  
+ip addr add 10.46.0.1/16 dev ogstun2  
+ip link set ogstun2 up  
+iptables -t nat -A POSTROUTING -s 10.46.0.0/16 ! -o ogstun2 -j MASQUERADE  
+
+### Network settings of Open5GS EPC U-Plane2
+First, uncomment the next line in the /etc/sysctl.conf file and reflect it in the OS.  
+net.ipv4.ip_forward=1  
+Next, configure the TUNnel interface and NAPT.  
+ip tuntap add name ogstun3 mode tun  
+ip addr add 10.47.0.1/16 dev ogstun3  
+ip link set ogstun3 up  
+iptables -t nat -A POSTROUTING -s 10.47.0.0/16 ! -o ogstun3 -j MASQUERADE   
+
+# UE and eNB installation
 $ git clone https://gitlab.eurecom.fr/oai/openairinterface5g/ enb_folder  
 $ cd enb_folder  
 $ git checkout -f v1.0.0  
@@ -90,7 +115,8 @@ $ cp -Rf enb_folder ue_folder
 ## Changes in configuration files of UE
 
 ue_folder/ci-scripts/conf_files/ue.nfapi.conf  
-ue_folder/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf  
+ue_folder/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf   
+You can check differences between the original files and uploaded in UE/RAN folders.
 
 ## Changes in configuration files of RAN
 
@@ -141,6 +167,6 @@ https://github.com/s5uishida/open5gs_epc_oai_sample_config
 https://gitlab.eurecom.fr/oai/openairinterface5g/-/wikis/l2-nfapi-simulator/l2-nfapi-simulator-w-S1-same-machine
 
 # Help & Support
-Having trouble?
+Having trouble?  
 Just ask ! between 5 and 10 days I will respond.
 
