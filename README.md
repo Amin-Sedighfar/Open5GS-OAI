@@ -63,17 +63,20 @@ Subscriber Information (other information is the same) is as follows.
  ## Changes in configuration files of Open5GS EPC C-Plane
  First, copy .yaml files to have a backup  
  then do all of the change like below and check with diff -u command  
- Modify /etc/open5gs/mme.yaml to set the S1AP IP address, PLMN ID, and TAC.  
+ Modify /etc/open5gs/mme.yaml to set the S1AP IP address, PLMN ID, and TAC. 
+ 
  open5gs/install/etc/open5gs/mme.yaml  
  open5gs/install/etc/open5gs/sgwc.yaml  
  open5gs/install/etc/open5gs/smf.yaml  
+ 
  Then you can check the modifications with the below command:  
  $ diff -u /etc/open5gs/mme.yaml.old /etc/open5gs/mme.yaml   
- You can check differences between the original files and uploaded in Core folder.
+ Finally, you can check differences between the original files and uploaded in Core folder.
  ## Changes in configuration files of Open5GS EPC U-Plane1 & 2  
  open5gs/install/etc/open5gs/sgwu.yaml  
  open5gs/install/etc/open5gs/upf.yaml   
- You can check differences between the original files and uploaded in U-plane1&2 folders.
+ 
+ Finally, you can check differences between the original files and uploaded in U-plane1&2 folders.
  
  # Register Subscriber Information
 
@@ -88,23 +91,23 @@ Connect to http://localhost:3000 and login with admin account.
 First, uncomment the next line in the /etc/sysctl.conf file and reflect it in the OS.  
 net.ipv4.ip_forward=1  
 Next, configure the TUNnel interface and NAPT.  
-ip tuntap add name ogstun mode tun  
-ip addr add 10.45.0.1/16 dev ogstun  
-ip link set ogstun up  
-iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE  
-ip tuntap add name ogstun2 mode tun  
-ip addr add 10.46.0.1/16 dev ogstun2  
-ip link set ogstun2 up  
-iptables -t nat -A POSTROUTING -s 10.46.0.0/16 ! -o ogstun2 -j MASQUERADE  
+$ ip tuntap add name ogstun mode tun  
+$ ip addr add 10.45.0.1/16 dev ogstun  
+$ ip link set ogstun up  
+$ iptables -t nat -A POSTROUTING -s 10.45.0.0/16 ! -o ogstun -j MASQUERADE  
+$ ip tuntap add name ogstun2 mode tun  
+$ ip addr add 10.46.0.1/16 dev ogstun2  
+$ ip link set ogstun2 up  
+$ iptables -t nat -A POSTROUTING -s 10.46.0.0/16 ! -o ogstun2 -j MASQUERADE  
 
 ### Network settings of Open5GS EPC U-Plane2
 First, uncomment the next line in the /etc/sysctl.conf file and reflect it in the OS.  
 net.ipv4.ip_forward=1  
 Next, configure the TUNnel interface and NAPT.  
-ip tuntap add name ogstun3 mode tun  
-ip addr add 10.47.0.1/16 dev ogstun3  
-ip link set ogstun3 up  
-iptables -t nat -A POSTROUTING -s 10.47.0.0/16 ! -o ogstun3 -j MASQUERADE   
+$ ip tuntap add name ogstun3 mode tun  
+$ ip addr add 10.47.0.1/16 dev ogstun3  
+$ ip link set ogstun3 up  
+$ iptables -t nat -A POSTROUTING -s 10.47.0.0/16 ! -o ogstun3 -j MASQUERADE   
 
 # UE and eNB installation
 $ git clone https://gitlab.eurecom.fr/oai/openairinterface5g/ enb_folder  
@@ -116,13 +119,13 @@ $ cp -Rf enb_folder ue_folder
 
 ue_folder/ci-scripts/conf_files/ue.nfapi.conf  
 ue_folder/openair3/NAS/TOOLS/ue_eurecom_test_sfr.conf   
-You can check differences between the original files and uploaded in UE/RAN folders.
+Finally, you can check differences between the original files and uploaded in UE/RAN folders.
 
 ## Changes in configuration files of RAN
 
-enb_folder/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf  
+$ enb_folder/ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf  
 
-sudo ifconfig lo: 127.0.0.2 netmask 255.0.0.0 up  
+$ sudo ifconfig lo: 127.0.0.2 netmask 255.0.0.0 up  
 
 ## Build the eNB
 
@@ -150,21 +153,25 @@ $ cp nvram ../../cmake_targets/
 
 # Run OAI RAN
 
-cd ~/enb_folder/cmake_targets  
-./lte_build_oai/build/lte-softmodem -O ../ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf 2>&1 | tee enb.log  
+$ cd ~/enb_folder/cmake_targets  
+$ ./lte_build_oai/build/lte-softmodem -O ../ci-scripts/conf_files/rcc.band7.tm1.nfapi.conf 2>&1 | tee enb.log  
 # Run OAI UEs
 
 $ cd ue_folder/cmake_targets/tools  
 $ source init_nas_s1 UE  
-cd ~/ue_folder/cmake_targets/tools  
-source init_nas_s1 UE  
-cd ..  
-./lte_build_oai/build/lte-uesoftmodem -O ../ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 5 2>&1 | tee ue.log  
+$ cd ~/ue_folder/cmake_targets/tools  
+$ source init_nas_s1 UE  
+$ cd ..  
+$ ./lte_build_oai/build/lte-uesoftmodem -O ../ci-scripts/conf_files/ue.nfapi.conf --L2-emul 3 --num-ues 5 2>&1 | tee ue.log  
 
 # Related references
 https://open5gs.org/open5gs/docs/  
 https://github.com/s5uishida/open5gs_epc_oai_sample_config  
 https://gitlab.eurecom.fr/oai/openairinterface5g/-/wikis/l2-nfapi-simulator/l2-nfapi-simulator-w-S1-same-machine
+
+# Logs
+to see each daemon logs just simply type the below command:  
+$ journalctl -u open5gs-mmed -f
 
 # Help & Support
 Having trouble?  
